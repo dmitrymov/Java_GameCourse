@@ -129,9 +129,19 @@ public class Game extends Canvas implements Runnable {
 		}
 		destroyFarEnemys();
 		checkColissions();
+		destroyAfterDeath();
 		addEnemys();
 	}
 	
+	private void destroyAfterDeath() {
+		for (int i = 0; i < enemys.size(); i++) {
+			if(enemys.get(i).removeAfterDeath()) {
+				enemys.remove(i);
+				i--;
+			}
+		}
+	}
+
 	private void addEnemys() {
 		long current = System.currentTimeMillis();
 		if(current - lastEnemyAddedAt > 5000) {
@@ -162,7 +172,7 @@ public class Game extends Canvas implements Runnable {
 				if(bulletX + bullets.get(i).getWidth() > characterX && bulletX < characterX + enemys.get(j).getWidth()) {
 					bullets.destroy(i);
 					enemys.get(j).die();
-					enemys.remove(j);
+					//enemys.remove(j);
 				}
 				// check other cases???
 			}

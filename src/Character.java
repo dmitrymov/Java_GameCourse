@@ -13,6 +13,8 @@ public class Character {
 	protected SpriteSheet characterSprite;
 	protected int gameWidth;
 	protected int gameHeight;
+	private boolean removeAfterDeath;
+	private int deathDelay;
 	
 	public Character(int x, int y, Game g, boolean isPlayer) {
 		this.x = x;
@@ -27,9 +29,17 @@ public class Character {
 		gameHeight = g.getHeight();
 		velX = 0;
 		velY = 0;
+		removeAfterDeath = false;
+		deathDelay = 0;
 	}
 	
 	public void tick() {
+		if(deathDelay > 0) {
+			deathDelay++;
+			if(deathDelay > 10)
+				removeAfterDeath = true;
+			return;
+		}
 		moveXCoordinate();
 		moveYCoordinate();
 	}
@@ -68,6 +78,10 @@ public class Character {
 		player = p;
 	}
 	
+	public BufferedImage getPlayerImage() {
+		return player;
+	}
+	
 	public void render(Graphics g) {
 		g.drawImage(player, x, y, null);
 	}
@@ -75,7 +89,9 @@ public class Character {
 	// animates the character death
 	public void die() {
 		Graphics g = player.getGraphics();
-		
+		player = characterSprite.grabPlayerImage(10, 0, characterSprite.getSpriteWidth(), characterSprite.getSpriteHeight());
+		g.drawImage(player, x, y, null);
+		deathDelay++;
 	}
 
 	public int getXVelocity() {
@@ -118,5 +134,9 @@ public class Character {
 	
 	public int getHeight() {
 		return characterSprite.getSpriteHeight();
+	}
+	
+	public boolean removeAfterDeath() {
+		return removeAfterDeath;
 	}
 }
