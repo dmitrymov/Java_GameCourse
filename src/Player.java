@@ -24,6 +24,12 @@ public class Player extends Character{
 	}
 	
 	public void tick() {
+		if(deathDelay > 0) {
+			deathDelay++;
+			if(deathDelay > 10)
+				removeAfterDeath = true;
+			return;
+		}
 		moveXCoordinate();
 		moveYCoordinate();
 		bullets.tick();

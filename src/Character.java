@@ -13,8 +13,8 @@ public class Character {
 	protected SpriteSheet characterSprite;
 	protected int gameWidth;
 	protected int gameHeight;
-	private boolean removeAfterDeath;
-	private int deathDelay;
+	protected boolean removeAfterDeath;
+	protected int deathDelay;
 	
 	public Character(int x, int y, Game g, boolean isPlayer) {
 		this.x = x;
